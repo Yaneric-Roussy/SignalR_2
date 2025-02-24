@@ -30,6 +30,7 @@ export class AuthenticationComponent implements OnInit {
       password : "Passw0rd!"
     }
     await this.authentication.login(loginData);
+    console.log(this.authentication);
   }
 
   async logout(){

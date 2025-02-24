@@ -8,6 +8,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 // On doit commencer par ajouter signalr dans les node_modules: npm install @microsoft/signalr
 // Ensuite on inclut la librairie
 import * as signalR from "@microsoft/signalr"
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-chat',
@@ -43,13 +44,22 @@ export class ChatComponent  {
 
     // On peut commencer à écouter pour les messages que l'on va recevoir du serveur
     this.hubConnection.on('UsersList', (data) => {
-      this.usersList = data;
+      this.usersList = data.map((user: { userName: any; id: any; email: any; }) => ({
+        key: user.userName, 
+        value: user.id,
+        email: user.email
+      }));
     });
+    
 
     // TODO: Écouter le message pour mettre à jour la liste de channels
 
     this.hubConnection.on('NewMessage', (message) => {
       this.messages.push(message);
+    });
+
+    this.hubConnection.on('GetChannels', (data) => {
+      this.channelsList = data;
     });
 
     // TODO: Écouter le message pour quitter un channel (lorsque le channel est effacé)
@@ -59,6 +69,7 @@ export class ChatComponent  {
       .start()
       .then(() => {
         this.isConnectedToHub = true;
+        console.log("connection is alive.")
       })
       .catch(err => console.log('Error while starting connection: ' + err))
   }
@@ -82,10 +93,12 @@ export class ChatComponent  {
 
   createChannel(){
     // TODO: Ajouter un invoke
+    this.hubConnection!.invoke('CreateChannel', this.newChannelName)
   }
 
   deleteChannel(channel: Channel){
     // TODO: Ajouter un invoke
+    this.hubConnection!.invoke('DeleteChannel', channel.id);
   }
 
   leaveChannel(){

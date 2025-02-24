@@ -20,12 +20,14 @@ export class AuthenticationService {
   }
 
   async registerAndLogin(registerData: RegisterDTO): Promise<void> {
+    console.log(registerData);
     let result = await lastValueFrom(this.http.post<LoginResultDTO>(this.accountBaseUrl + 'Register', registerData));
     sessionStorage.setItem("token", result.token);
     this.setUserEmail(result.email);
   }
 
   async login(loginData: LoginDTO): Promise<void> {
+
     let result = await lastValueFrom(this.http.post<LoginResultDTO>(this.accountBaseUrl + 'Login', loginData));
     sessionStorage.setItem("token", result.token);
     this.setUserEmail(result.email);
