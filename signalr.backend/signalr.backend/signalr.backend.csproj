@@ -28,5 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Hubs\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 </Project>

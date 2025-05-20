@@ -12,15 +12,15 @@ using signalr.backend.Data;
 namespace signalr.backend.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240216202830_RemoveMessages")]
-    partial class RemoveMessages
+    [Migration("20250519233803_nbmessages")]
+    partial class nbmessages
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.16")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -235,6 +235,9 @@ namespace signalr.backend.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("NbMessages")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -247,16 +250,19 @@ namespace signalr.backend.Migrations
                         new
                         {
                             Id = 1,
+                            NbMessages = 0,
                             Title = "Channel 1"
                         },
                         new
                         {
                             Id = 2,
+                            NbMessages = 0,
                             Title = "Channel 2"
                         },
                         new
                         {
                             Id = 3,
+                            NbMessages = 0,
                             Title = "Channel 3"
                         });
                 });

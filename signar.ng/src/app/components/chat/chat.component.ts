@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 // Ensuite on inclut la librairie
 import * as signalR from "@microsoft/signalr"
 import { DateAdapter } from '@angular/material/core';
+import { data } from 'cheerio/lib/api/attributes';
 
 @Component({
   selector: 'app-chat',
@@ -60,6 +61,10 @@ export class ChatComponent  {
 
     this.hubConnection.on('GetChannels', (data) => {
       this.channelsList = data;
+    });
+
+    this.hubConnection.on('MostPopular', (data) => {
+      alert(data);
     });
 
     // TODO: Écouter le message pour quitter un channel (lorsque le channel est effacé)

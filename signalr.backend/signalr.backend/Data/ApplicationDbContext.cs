@@ -38,6 +38,5 @@ public class ApplicationDbContext : IdentityDbContext
     }
 
     public DbSet<Channel> Channel { get; set; } = default!;
-
 }
 

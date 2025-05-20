@@ -121,6 +121,8 @@ namespace signalr.backend.Hubs
             {
                 // TODO: Envoyer le message aux utilisateurs connectés à ce canal
                 Channel channel = await _context.Channel.SingleAsync(c => c.Id == channelId);
+                channel.NbMessages++;
+                await _context.SaveChangesAsync();
                 await Clients.All.SendAsync("NewMessage", "["+ channel.Title + "] " + message);
             }
             else
